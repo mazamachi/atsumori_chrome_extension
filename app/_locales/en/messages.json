@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "たまに熱盛が出てしまうchrome extension",
+    "description": "The name of the application"
+  },
+  "appShortName": {
+    "message": "たまに熱盛が出てしまう",
+    "description": "The short_name (maximum of 12 characters recommended) is a short version of the app's name."
+  },
+  "appDescription": {
+    "message": "動画を再生していると1%の確率で熱盛と表示されてしまうchrome extension です。",
+    "description": "The description of the application"
+  }
+}
