@@ -11,7 +11,7 @@ import args from './lib/args'
 const ENV = args.production ? 'production' : 'development'
 
 gulp.task('scripts', (cb) => {
-  return gulp.src('app/scripts/*.js')
+  return gulp.src(['app/scripts/*.js', 'app/scripts/*.ts'])
     .pipe(plumber({
       errorHandler () {
         // Webpack will log the errors
@@ -43,8 +43,21 @@ gulp.task('scripts', (cb) => {
           test: /\.js$/,
           loader: 'babel-loader',
           enforce: 'post'
+        },
+        {
+          test: /\.tsx?$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/,
+          enforce: 'post'
         }]
-      }
+      },
+      resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        modules: [
+          "node_modules/",
+          "app/scripts/"
+        ]
+      },
     },
     webpack,
     (err, stats) => {

@@ -15,6 +15,7 @@
     "dev:opera": "gulp --watch --vendor=opera"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.48",
     "babel-cli": "6.x.x",
     "babel-core": "6.x.x",
     "babel-eslint": "7.x.x",
@@ -45,6 +46,8 @@
     "gulp-util": "3.x.x",
     "gulp-zip": "^4.x.x",
     "require-dir": "0.x.x",
+    "ts-loader": "^2.3.4",
+    "tslint": "^5.7.0",
     "vinyl-named": "1.x.x",
     "webpack": "2.x.x",
     "webpack-stream": "3.x.x",
