@@ -24,7 +24,7 @@ class Atumori {
     }
     this.videoDom = videoDom;
     this.createAtsumori();
-    this.videoDom.addEventListener("canplay", () => {
+    this.videoDom.addEventListener("loadeddata", () => {
       this.timing = this.getTiming();
       console.log(this.timing);
     });
@@ -33,6 +33,7 @@ class Atumori {
   }
 
   private getTiming(): number {
+    this.done = false;
     if (this.timing !== undefined) {
       return this.timing;
     } else if (this.videoDom.duration !== NaN && this.videoDom.duration !== Infinity) {
@@ -82,6 +83,7 @@ class Atumori {
         } else {
           this.startAtsumoriWithApologize();
         }
+        this.timing = undefined;
       }
     }
   }
@@ -106,6 +108,7 @@ class Atumori {
       this.atsumoriAudioDom.play();
       await this.sleep(1200);
       this.atsumoriAudioDom.pause();
+      this.atsumoriAudioDom.currentTime = 0;
       await this.apologizeAudioDom.play();
     }
   }
