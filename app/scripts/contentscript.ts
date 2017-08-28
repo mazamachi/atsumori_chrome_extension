@@ -41,7 +41,7 @@ class Atumori {
     console.log("playing");
     await this.sleep(1*1000);
 
-    if (this.videoDom.pause) {
+    if (this.videoDom.paused) {
       return;
     }
 
