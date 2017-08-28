@@ -2,7 +2,8 @@ initializeWhenReady(document);
 
 class Atumori {
   private videoDom: HTMLVideoElement;
-  private atsumoriImgDom: HTMLElement | null;
+  private imgDom: HTMLElement | null;
+  private audioDom: HTMLAudioElement | null;
 
   constructor(videoDom: HTMLVideoElement) {
     this.videoDom = videoDom;
@@ -22,10 +23,12 @@ class Atumori {
         @import "${chrome.extension.getURL('styles/shadow.css')}";
       </style>
       <div id="atsumori">
-        <image id="atsumori-img" src="${chrome.extension.getURL("images/atsumori.png")}"/>
+        <img id="atsumori-img" src="${chrome.extension.getURL("images/atsumori.png")}"/>
+        <audio id="atsumori-audio" src="${chrome.extension.getURL("assets/atsumori.mp3")}"/>
       </div>
       `;
-      this.atsumoriImgDom = shadow.querySelector("#atsumori-img") as HTMLElement | null
+      this.imgDom = shadow.querySelector("#atsumori-img") as HTMLElement | null;
+      this.audioDom = shadow.querySelector("audio#atsumori-audio") as HTMLAudioElement | null;
       parent.insertAdjacentElement("afterbegin", wrapper);
     }
   }
@@ -39,8 +42,13 @@ class Atumori {
     await this.sleep(1*1000);
     console.log("10秒後")
     console.log(this.videoDom);
-    if (this.atsumoriImgDom) {
-      this.atsumoriImgDom.classList.add("start");
+    if (this.imgDom && this.audioDom) {
+      this.imgDom.classList.add("start");
+      this.audioDom.addEventListener("ended", async () => {
+        await this.sleep(1*1000);
+        this.imgDom!.classList.remove("start")
+      });
+      await this.audioDom.play();
     }
   }
 }
