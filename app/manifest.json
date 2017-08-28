@@ -9,6 +9,7 @@
     "16": "images/icon-16.png",
     "128": "images/icon-128.png"
   },
+  "options_page": "pages/options.html",
   "content_scripts": [
     {
       "matches": [
@@ -26,7 +27,7 @@
     }
   ],
   "permissions": [
-    "activeTab"
+    "activeTab", "storage"
   ],
   "web_accessible_resources": [
     "images/atsumori.png", "styles/shadow.css", "assets/atsumori.mp3", "assets/apologize.mp3"

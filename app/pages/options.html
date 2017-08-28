@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>たまに熱盛が出てしまうchrome extension: 設定</title>
+    <script src="../scripts/options.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>たまに熱盛が出てしまうchrome extension</h1>
+    </header>
+
+    <section>
+      <h3>熱盛が表示されてしまう動画の割合</h3>
+      <div class="row">
+        <label for="atsumoriRate">割合 (0 ~ 1, デフォルトは 0.05 = 5% )</label>
+        <input id="atsumoriRate" placeholder="0.05" type="text" value=""/>
+      </div>
+      <h3>謝罪する確率</h3>
+      <div class="row">
+        <label for="apologizeRate">確率 (0 ~ 1, デフォルトは 0.25 = 25% )</label>
+        <input id="apologizeRate" placeholder="0.25" type="text" value=""/>
+      </div>
+    </section>
+
+    <button id="save">
+      保存
+    </button>
+    <button id="restore">
+      デフォルトに戻す
+    </button>
+
+    <div id="status">
+
+    </div>
+
+    <div id="issues">
+      <hr />
+      <h4>既知の問題</h4>
+      <ul>
+        <li>サイトによっては熱盛の位置がずれてしまう</li>
+        <li>twitterなど、多くの動画があるサイトでは熱盛が表示されない</li>
+      </ul>
+    </div>
+  </body>
+</html>

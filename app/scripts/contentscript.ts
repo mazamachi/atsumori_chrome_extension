@@ -1,4 +1,11 @@
-initializeWhenReady(document);
+import { Option } from './interface';
+
+const defaultOption: Option = {
+  atsumoriRate: 0.05,
+  apologizeRate: 0.25
+}
+
+chrome.storage.sync.get(defaultOption, (storage: Option) => initializeWhenReady(document, Object.assign(defaultOption, storage)));
 
 class Atumori {
   private videoDom: HTMLVideoElement;
@@ -8,8 +15,13 @@ class Atumori {
   private wrapper: HTMLElement | null;
   private timing?: number;
   private done = false;
+  private option: Option;
 
-  constructor(videoDom: HTMLVideoElement) {
+  constructor(videoDom: HTMLVideoElement, option: Option) {
+    this.option = option
+    if (Math.random() > this.option.atsumoriRate) {
+      return;
+    }
     this.videoDom = videoDom;
     this.createAtsumori();
     this.videoDom.addEventListener("canplay", () => {
@@ -65,7 +77,7 @@ class Atumori {
         this.wrapper.style.width = this.videoDom.style.width;
         this.wrapper.style.height = this.videoDom.style.height;
 
-        if (Math.random() < 0.75) {
+        if (Math.random() > this.option.apologizeRate) {
           this.startAtsumori();
         } else {
           this.startAtsumoriWithApologize();
@@ -99,21 +111,21 @@ class Atumori {
   }
 }
 
-function initializeWhenReady(document: Document) {
+function initializeWhenReady(document: Document, option: Option) {
   const readyStateCheckInterval = setInterval(function() {
     if (document && document.readyState === 'complete') {
       clearInterval(readyStateCheckInterval);
-      initializeNow(document);
+      initializeNow(document, option);
     }
   }, 10);
 }
 
-function initializeNow(document: Document) {
+function initializeNow(document: Document, option: Option) {
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
         if (node.nodeName === 'VIDEO') {
-          new Atumori(node as HTMLVideoElement);
+          new Atumori(node as HTMLVideoElement, option);
         }
       });
     });
@@ -123,6 +135,6 @@ function initializeNow(document: Document) {
 
   const videoTags = document.getElementsByTagName('video');
   Array.from(videoTags).forEach(video => {
-    new Atumori(video);
+    new Atumori(video, option);
   });
 }
