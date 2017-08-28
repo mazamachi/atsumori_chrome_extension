@@ -2,12 +2,12 @@ initializeWhenReady(document);
 
 class Atumori {
   private videoDom: HTMLVideoElement;
-  private atsumoriDom: HTMLElement | null;
+  private atsumoriImgDom: HTMLElement | null;
 
   constructor(videoDom: HTMLVideoElement) {
     this.videoDom = videoDom;
     this.createAtsumori();
-    this.videoDom.addEventListener("playing", (event) => this.execAtsumori(event))
+    this.videoDom.addEventListener("playing", () => this.execAtsumori())
   }
 
   private createAtsumori() {
@@ -21,11 +21,11 @@ class Atumori {
       <style>
         @import "${chrome.extension.getURL('styles/shadow.css')}";
       </style>
-      <div id="atsumori" style="visibility: visible;" >
-        <image src="${chrome.extension.getURL("images/atsumori.png")}"/>
+      <div id="atsumori">
+        <image id="atsumori-img" src="${chrome.extension.getURL("images/atsumori.png")}"/>
       </div>
       `;
-      this.atsumoriDom = parent.querySelector("#atsumori") as HTMLElement | null
+      this.atsumoriImgDom = shadow.querySelector("#atsumori-img") as HTMLElement | null
       parent.insertAdjacentElement("afterbegin", wrapper);
     }
   }
@@ -34,13 +34,13 @@ class Atumori {
     return new Promise(resolve => setTimeout(resolve, time));
   }
 
-  private async execAtsumori(event: Event) {
+  private async execAtsumori() {
     console.log("playing");
-    await this.sleep(10);
+    await this.sleep(1*1000);
     console.log("10秒後")
-    console.log(event);
-    if (this.atsumoriDom) {
-      this.atsumoriDom.style.visibility = "visible";
+    console.log(this.videoDom);
+    if (this.atsumoriImgDom) {
+      this.atsumoriImgDom.classList.add("start");
     }
   }
 }

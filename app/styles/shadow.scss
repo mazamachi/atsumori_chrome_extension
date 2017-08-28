@@ -3,11 +3,28 @@
   z-index: 9999999;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 
   img {
     position: absolute;
+    visibility: hidden;
     bottom: 0;
     right: 0;
     width: 30%;
+
+    &.start {
+      visibility: visible;
+      animation: rotation 0.2s ease 0s 1 alternate none running;
+    }
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: scale(1.5);
+    }
+
+    100% {
+      transform: scale(1);
+    }
   }
 }
