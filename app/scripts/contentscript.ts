@@ -3,7 +3,8 @@ initializeWhenReady(document);
 class Atumori {
   private videoDom: HTMLVideoElement;
   private imgDom: HTMLElement | null;
-  private audioDom: HTMLAudioElement | null;
+  private atsumoriAudioDom: HTMLAudioElement | null;
+  private apologizeAudioDom: HTMLAudioElement | null;
   private wrapper: HTMLElement | null;
   private timing: number;
   private done = false;
@@ -41,10 +42,12 @@ class Atumori {
       <div id="atsumori">
         <img id="atsumori-img" src="${chrome.extension.getURL("images/atsumori.png")}"/>
         <audio id="atsumori-audio" src="${chrome.extension.getURL("assets/atsumori.mp3")}"/>
+        <audio id="apologize-audio" src="${chrome.extension.getURL("assets/apologize.mp3")}"/>
       </div>
       `;
       this.imgDom = shadow.querySelector("#atsumori-img") as HTMLElement | null;
-      this.audioDom = shadow.querySelector("audio#atsumori-audio") as HTMLAudioElement | null;
+      this.atsumoriAudioDom = shadow.querySelector("audio#atsumori-audio") as HTMLAudioElement | null;
+      this.apologizeAudioDom = shadow.querySelector("audio#apologize-audio") as HTMLAudioElement | null;
       parent.insertAdjacentElement("afterbegin", this.wrapper);
     }
   }
@@ -54,19 +57,42 @@ class Atumori {
   }
 
   private async execAtsumori() {
-    if(this.videoDom.currentTime > this.timing && !this.done){
-      if (this.imgDom && this.audioDom && this.wrapper) {
+    if(this.timing && this.videoDom.currentTime > this.timing && !this.done){
+      if (this.wrapper) {
         this.done = true;
         this.wrapper.style.width = this.videoDom.style.width;
         this.wrapper.style.height = this.videoDom.style.height;
 
-        this.imgDom.classList.add("start");
-        this.audioDom.addEventListener("ended", async () => {
-          await this.sleep(1*1000);
-          this.imgDom!.classList.remove("start")
-        });
-        await this.audioDom.play();
+        if (Math.random() < 0.75) {
+          this.startAtsumori();
+        } else {
+          this.startAtsumoriWithApologize();
+        }
       }
+    }
+  }
+
+  private async startAtsumori() {
+    if (this.imgDom && this.atsumoriAudioDom) {
+      this.imgDom.classList.add("start");
+      this.atsumoriAudioDom.addEventListener("ended", async () => {
+        await this.sleep(1*1000);
+        this.imgDom!.classList.remove("start")
+      });
+      await this.atsumoriAudioDom.play();
+    }
+  }
+
+  private async startAtsumoriWithApologize() {
+    if (this.imgDom && this.atsumoriAudioDom && this.apologizeAudioDom) {
+      this.imgDom.classList.add("start");
+      this.atsumoriAudioDom.addEventListener("pause", async () => {
+        this.imgDom!.classList.remove("start")
+      });
+      this.atsumoriAudioDom.play();
+      await this.sleep(1200);
+      this.atsumoriAudioDom.pause();
+      await this.apologizeAudioDom.play();
     }
   }
 }

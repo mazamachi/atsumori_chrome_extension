@@ -29,6 +29,6 @@
     "activeTab"
   ],
   "web_accessible_resources": [
-    "images/atsumori.png", "styles/shadow.css", "assets/atsumori.mp3"
+    "images/atsumori.png", "styles/shadow.css", "assets/atsumori.mp3", "assets/apologize.mp3"
   ]
 }
