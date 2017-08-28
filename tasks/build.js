@@ -10,6 +10,7 @@ gulp.task('build', gulpSequence(
     'locales',
     'images',
     'fonts',
+    'assets',
     'chromereload'
   ]
 ))
