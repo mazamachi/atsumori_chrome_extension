@@ -11,8 +11,20 @@ class Atumori {
   constructor(videoDom: HTMLVideoElement) {
     this.videoDom = videoDom;
     this.createAtsumori();
-    this.timing = this.videoDom.duration * Math.random();
+    this.videoDom.addEventListener("canplay", () => {
+      this.timing = this.getTiming();
+      console.log(this.timing);
+    });
+
     this.videoDom.addEventListener("timeupdate", () => this.execAtsumori());
+  }
+
+  private getTiming(): number {
+    if (this.videoDom.duration !== NaN && this.videoDom.duration !== Infinity) {
+      return this.videoDom.duration * Math.random();
+    } else {
+      return 5 + 10 * Math.random();
+    }
   }
 
   private createAtsumori() {
