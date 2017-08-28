@@ -5,11 +5,14 @@ class Atumori {
   private imgDom: HTMLElement | null;
   private audioDom: HTMLAudioElement | null;
   private wrapper: HTMLElement | null;
+  private timing: number;
+  private done = false;
 
   constructor(videoDom: HTMLVideoElement) {
     this.videoDom = videoDom;
     this.createAtsumori();
-    this.videoDom.addEventListener("playing", () => this.execAtsumori())
+    this.timing = this.videoDom.duration * Math.random();
+    this.videoDom.addEventListener("timeupdate", () => this.execAtsumori());
   }
 
   private createAtsumori() {
@@ -39,25 +42,19 @@ class Atumori {
   }
 
   private async execAtsumori() {
-    console.log("playing");
-    await this.sleep(1*1000);
+    if(this.videoDom.currentTime > this.timing && !this.done){
+      if (this.imgDom && this.audioDom && this.wrapper) {
+        this.done = true;
+        this.wrapper.style.width = this.videoDom.style.width;
+        this.wrapper.style.height = this.videoDom.style.height;
 
-    if (this.videoDom.paused) {
-      return;
-    }
-
-    console.log("10秒後")
-    console.log(this.videoDom);
-    if (this.imgDom && this.audioDom && this.wrapper) {
-      this.wrapper.style.width = this.videoDom.style.width;
-      this.wrapper.style.height = this.videoDom.style.height;
-
-      this.imgDom.classList.add("start");
-      this.audioDom.addEventListener("ended", async () => {
-        await this.sleep(1*1000);
-        this.imgDom!.classList.remove("start")
-      });
-      await this.audioDom.play();
+        this.imgDom.classList.add("start");
+        this.audioDom.addEventListener("ended", async () => {
+          await this.sleep(1*1000);
+          this.imgDom!.classList.remove("start")
+        });
+        await this.audioDom.play();
+      }
     }
   }
 }
