@@ -40,6 +40,11 @@ class Atumori {
   private async execAtsumori() {
     console.log("playing");
     await this.sleep(1*1000);
+
+    if (this.videoDom.pause) {
+      return;
+    }
+
     console.log("10秒後")
     console.log(this.videoDom);
     if (this.imgDom && this.audioDom) {
