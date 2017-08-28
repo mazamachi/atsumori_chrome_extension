@@ -12,7 +12,8 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*.nicovideo.jp/*"
+        "http://*/*",
+        "https://*/*"
       ],
       "css": [
         "styles/contentscript.css"
