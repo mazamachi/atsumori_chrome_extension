@@ -6,7 +6,7 @@ class Atumori {
   private atsumoriAudioDom: HTMLAudioElement | null;
   private apologizeAudioDom: HTMLAudioElement | null;
   private wrapper: HTMLElement | null;
-  private timing: number;
+  private timing?: number;
   private done = false;
 
   constructor(videoDom: HTMLVideoElement) {
@@ -21,7 +21,9 @@ class Atumori {
   }
 
   private getTiming(): number {
-    if (this.videoDom.duration !== NaN && this.videoDom.duration !== Infinity) {
+    if (this.timing !== undefined) {
+      return this.timing;
+    } else if (this.videoDom.duration !== NaN && this.videoDom.duration !== Infinity) {
       return this.videoDom.duration * Math.random();
     } else {
       return 5 + 10 * Math.random();
