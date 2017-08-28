@@ -72,7 +72,7 @@ class Atumori {
   }
 
   private async execAtsumori() {
-    if(this.timing && this.videoDom.currentTime > this.timing && !this.done){
+    if(this.timing && this.videoDom.currentTime > this.timing && this.videoDom.currentTime < this.timing + 2 && !this.done){
       if (this.wrapper) {
         this.done = true;
         this.wrapper.style.width = this.videoDom.style.width;
