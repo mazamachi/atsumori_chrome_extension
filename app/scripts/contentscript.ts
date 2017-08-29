@@ -1,11 +1,9 @@
 import { defaultOption, Option } from './interface';
 
-const defaultOption: Option = {
-  atsumoriRate: 0.05,
-  apologizeRate: 0.25
-}
-
-chrome.storage.sync.get(defaultOption, (storage: Option) => initializeWhenReady(document, Object.assign(defaultOption, storage)));
+chrome.storage.sync.get(
+  defaultOption,
+  (storage: Option) => initializeWhenReady(document, Object.assign(defaultOption, storage))
+);
 
 class Atumori {
   private videoDom: HTMLVideoElement;
@@ -18,7 +16,7 @@ class Atumori {
   private option: Option;
 
   constructor(videoDom: HTMLVideoElement, option: Option) {
-    this.option = option
+    this.option = option;
     if (Math.random() > this.option.atsumoriRate) {
       return;
     }
@@ -36,7 +34,7 @@ class Atumori {
     this.done = false;
     if (this.timing !== undefined) {
       return this.timing;
-    } else if (this.videoDom.duration !== NaN && this.videoDom.duration !== Infinity) {
+    } else if (!isNaN(this.videoDom.duration) && this.videoDom.duration !== Infinity) {
       return this.videoDom.duration * Math.random();
     } else {
       return 5 + 10 * Math.random();
@@ -68,11 +66,11 @@ class Atumori {
   }
 
   private sleep(time: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, time));
+    return new Promise((resolve) => setTimeout(resolve, time));
   }
 
   private async execAtsumori() {
-    if(this.timing && this.videoDom.currentTime > this.timing && this.videoDom.currentTime < this.timing + 2 && !this.done){
+    if (this.timing && this.videoDom.currentTime > this.timing && this.videoDom.currentTime < this.timing + 2 && !this.done) {
       if (this.wrapper) {
         this.done = true;
         this.wrapper.style.width = this.videoDom.style.width;
@@ -92,8 +90,8 @@ class Atumori {
     if (this.imgDom && this.atsumoriAudioDom) {
       this.imgDom.classList.add("start");
       this.atsumoriAudioDom.addEventListener("ended", async () => {
-        await this.sleep(1*1000);
-        this.imgDom!.classList.remove("start")
+        await this.sleep(1 * 1000);
+        this.imgDom!.classList.remove("start");
       });
       await this.atsumoriAudioDom.play();
     }
@@ -103,7 +101,7 @@ class Atumori {
     if (this.imgDom && this.atsumoriAudioDom && this.apologizeAudioDom) {
       this.imgDom.classList.add("start");
       this.atsumoriAudioDom.addEventListener("pause", async () => {
-        this.imgDom!.classList.remove("start")
+        this.imgDom!.classList.remove("start");
       });
       this.atsumoriAudioDom.play();
       await this.sleep(1200);
@@ -115,7 +113,7 @@ class Atumori {
 }
 
 function initializeWhenReady(document: Document, option: Option) {
-  const readyStateCheckInterval = setInterval(function() {
+  const readyStateCheckInterval = setInterval(() => {
     if (document && document.readyState === 'complete') {
       clearInterval(readyStateCheckInterval);
       initializeNow(document, option);
@@ -124,7 +122,7 @@ function initializeWhenReady(document: Document, option: Option) {
 }
 
 function initializeNow(document: Document, option: Option) {
-  const observer = new MutationObserver(mutations => {
+  const observer = new MutationObserver((mutations) => {
     mutations.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
         if (node.nodeName === 'VIDEO') {
