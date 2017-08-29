@@ -1,4 +1,4 @@
-import { Option } from './interface';
+import { defaultOption, Option } from './interface';
 
 const defaultOption: Option = {
   atsumoriRate: 0.05,
