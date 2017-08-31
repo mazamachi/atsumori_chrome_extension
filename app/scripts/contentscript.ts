@@ -17,12 +17,12 @@ class Atumori {
 
   constructor(videoDom: HTMLVideoElement, option: Option) {
     this.option = option;
-    if (Math.random() > this.option.atsumoriRate) {
-      return;
-    }
     this.videoDom = videoDom;
     this.createAtsumori();
     this.videoDom.addEventListener("loadeddata", () => {
+      if (Math.random() > this.option.atsumoriRate) {
+        return;
+      }
       this.timing = this.getTiming();
       console.log(this.timing);
     });
@@ -32,9 +32,7 @@ class Atumori {
 
   private getTiming(): number {
     this.done = false;
-    if (this.timing !== undefined) {
-      return this.timing;
-    } else if (!isNaN(this.videoDom.duration) && this.videoDom.duration !== Infinity) {
+    if (!isNaN(this.videoDom.duration) && this.videoDom.duration !== Infinity) {
       return this.videoDom.duration * Math.random();
     } else {
       return 5 + 10 * Math.random();

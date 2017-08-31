@@ -5,5 +5,5 @@ export interface Option {
 
 export const defaultOption: Option = {
   apologizeRate: 0.5,
-  atsumoriRate: 0.05,
+  atsumoriRate: 0.1,
 };
