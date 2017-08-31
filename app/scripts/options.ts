@@ -1,10 +1,19 @@
 import { defaultOption, Option } from './interface';
 
 function save_options() {
-  const atsumoriRate: number = Number((document.getElementById('atsumoriRate') as HTMLInputElement ).value);
-  const apologizeRate: number = Number((document.getElementById('apologizeRate') as HTMLInputElement ).value);
+  const atsumoriRateDom: HTMLInputElement = document.getElementById('atsumoriRate') as HTMLInputElement;
+  const apologizeRateDom: HTMLInputElement = document.getElementById('apologizeRate') as HTMLInputElement;
 
-  chrome.storage.sync.set({atsumoriRate, apologizeRate}, () => {
+  if (atsumoriRateDom.validity.patternMismatch || apologizeRateDom.validity.patternMismatch) {
+    return;
+  }
+
+  const option: Option = {
+    apologizeRate: parseFloat(apologizeRateDom.value),
+    atsumoriRate: parseFloat(atsumoriRateDom.value),
+  };
+
+  chrome.storage.sync.set(option, () => {
     const status = document.getElementById('status')!;
     status.textContent = '保存しました。';
     setTimeout(() => {
