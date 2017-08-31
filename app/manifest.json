@@ -2,7 +2,7 @@
   "name": "たまに熱盛が出てしまうextension",
   "short_name": "たまに熱盛が出てしまう",
   "description": "動画を再生していると10%の確率で熱盛と表示されてしまうchrome extension です。",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "manifest_version": 2,
   "default_locale": "en",
   "icons": {
