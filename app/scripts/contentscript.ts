@@ -91,6 +91,8 @@ class Atumori {
         await this.sleep(1 * 1000);
         this.imgDom!.classList.remove("start");
       });
+
+      this.atsumoriAudioDom.volume = this.videoDom.volume;
       await this.atsumoriAudioDom.play();
     }
   }
@@ -101,10 +103,14 @@ class Atumori {
       this.atsumoriAudioDom.addEventListener("pause", async () => {
         this.imgDom!.classList.remove("start");
       });
+
+      this.atsumoriAudioDom.volume = this.videoDom.volume;
       this.atsumoriAudioDom.play();
       await this.sleep(1200);
       this.atsumoriAudioDom.pause();
       this.atsumoriAudioDom.currentTime = 0;
+
+      this.apologizeAudioDom.volume = this.videoDom.volume;
       await this.apologizeAudioDom.play();
     }
   }
